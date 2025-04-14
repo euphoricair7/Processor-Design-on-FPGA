@@ -1,0 +1,37 @@
+# --- SAP-1 Program: Test All Instructions with Simple Data ---
+# Executes LDA, ADD, SUB, AND, OR, XOR, NOTA sequentially.
+# Uses small integer values for easier tracking.
+# Expected Intermediate Values (Decimal):
+# After LDA: A = 1
+# After ADD: A = 1 + 2 = 3
+# After SUB: A = 3 - 1 = 2
+# After AND: A = 2 & 3 = 2  (0b0010 & 0b0011 = 0b0010)
+# After OR:  A = 2 | 1 = 3  (0b0010 | 0b0001 = 0b0011)
+# After XOR: A = 3 ^ 4 = 7  (0b0011 ^ 0b0100 = 0b0111)
+# After NOTA:A = ~7 = 248 (0b11111000)
+# Expected Final Result in Register A: 0xF8 (248 Decimal)
+
+# Code Section (Instructions 0-7 -> Addresses 0x0-0x7)
+# Opcode DataAddr
+# ------ --------
+LDA 8   # Addr 0x0: Load Initial Value (1) from Addr 0x8.   A = 1
+ADD 9   # Addr 0x1: Add 2 (from Addr 0x9).                  A = 1 + 2 = 3
+SUB A   # Addr 0x2: Subtract 1 (from Addr 0xA).             A = 3 - 1 = 2
+AND B   # Addr 0x3: AND with 3 (from Addr 0xB).             A = 2 & 3 = 2
+OR  C   # Addr 0x4: OR with 1 (from Addr 0xC).              A = 2 | 1 = 3
+XOR D   # Addr 0x5: XOR with 4 (from Addr 0xD).             A = 3 ^ 4 = 7
+NOTA E  # Addr 0x6: NOT A. (Operand from Addr 0xE ignored). A = ~7 = 248 (0xF8)
+HLT F   # Addr 0x7: Halt execution.                         A = 248 (0xF8)
+
+# Data Section (Data for Instructions 0-6 -> Addresses 0x8-0xE)
+# Addr: Value (Hex) - Decimal Value
+.BYTE 01 # Addr 0x8: Data for LDA (Value = 1)
+.BYTE 02 # Addr 0x9: Data for ADD (Value = 2)
+.BYTE 01 # Addr 0xA: Data for SUB (Value = 1)
+.BYTE 03 # Addr 0xB: Data for AND (Value = 3)
+.BYTE 01 # Addr 0xC: Data for OR  (Value = 1)
+.BYTE 04 # Addr 0xD: Data for XOR (Value = 4)
+.BYTE 00 # Addr 0xE: Dummy operand for NOTA (Value = 0, ignored)
+.BYTE 00 # Addr 0xF: Unused padding
+
+# --- End of Program ---
